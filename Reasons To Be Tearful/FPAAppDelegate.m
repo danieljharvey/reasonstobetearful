@@ -7,14 +7,18 @@
 //
 
 #import "FPAAppDelegate.h"
+#import "FPAMainViewController.h"
 
 @implementation FPAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    FPAMainViewController *rootView=[[FPAMainViewController alloc] init];
+    
+    self.window.rootViewController=rootView;
     // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */; };
+		651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */; };
 		65A255551C88C1EE002CD381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255541C88C1EE002CD381 /* Foundation.framework */; };
 		65A255571C88C1EE002CD381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255561C88C1EE002CD381 /* CoreGraphics.framework */; };
 		65A255591C88C1EE002CD381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255581C88C1EE002CD381 /* UIKit.framework */; };
@@ -19,6 +21,8 @@
 		65A255701C88C1EE002CD381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255581C88C1EE002CD381 /* UIKit.framework */; };
 		65A255781C88C1EE002CD381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65A255761C88C1EE002CD381 /* InfoPlist.strings */; };
 		65A2557A1C88C1EE002CD381 /* Reasons_To_Be_TearfulTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A255791C88C1EE002CD381 /* Reasons_To_Be_TearfulTests.m */; };
+		65A255881C88C2C7002CD381 /* FPAMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 65A255871C88C2C7002CD381 /* FPAMainViewController.m */; };
+		65A2558A1C88C303002CD381 /* FPAMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 65A255891C88C303002CD381 /* FPAMainViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +36,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		651B4A6F1CB1370400E0F0D0 /* FPADataFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPADataFetcher.h; sourceTree = "<group>"; };
+		651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPADataFetcher.m; sourceTree = "<group>"; };
+		651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPAAudioPlayer.h; path = ../FPAAudioPlayer.h; sourceTree = "<group>"; };
+		651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPAAudioPlayer.m; path = ../FPAAudioPlayer.m; sourceTree = "<group>"; };
 		65A255511C88C1EE002CD381 /* Reasons To Be Tearful.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reasons To Be Tearful.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A255541C88C1EE002CD381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65A255561C88C1EE002CD381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -48,6 +56,9 @@
 		65A255751C88C1EE002CD381 /* Reasons To Be TearfulTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Reasons To Be TearfulTests-Info.plist"; sourceTree = "<group>"; };
 		65A255771C88C1EE002CD381 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		65A255791C88C1EE002CD381 /* Reasons_To_Be_TearfulTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Reasons_To_Be_TearfulTests.m; sourceTree = "<group>"; };
+		65A255861C88C2C7002CD381 /* FPAMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPAMainViewController.h; path = ../FPAMainViewController.h; sourceTree = "<group>"; };
+		65A255871C88C2C7002CD381 /* FPAMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPAMainViewController.m; path = ../FPAMainViewController.m; sourceTree = "<group>"; };
+		65A255891C88C303002CD381 /* FPAMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FPAMainViewController.xib; path = ../FPAMainViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +121,13 @@
 				65A255631C88C1EE002CD381 /* FPAAppDelegate.h */,
 				65A255641C88C1EE002CD381 /* FPAAppDelegate.m */,
 				65A255661C88C1EE002CD381 /* Images.xcassets */,
+				65A255861C88C2C7002CD381 /* FPAMainViewController.h */,
+				65A255891C88C303002CD381 /* FPAMainViewController.xib */,
+				65A255871C88C2C7002CD381 /* FPAMainViewController.m */,
+				651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */,
+				651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */,
+				651B4A6F1CB1370400E0F0D0 /* FPADataFetcher.h */,
+				651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */,
 				65A2555B1C88C1EE002CD381 /* Supporting Files */,
 			);
 			path = "Reasons To Be Tearful";
@@ -189,7 +207,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = FPA;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Daniel Harvey";
 				TargetAttributes = {
 					65A2556B1C88C1EE002CD381 = {
@@ -221,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A2555F1C88C1EE002CD381 /* InfoPlist.strings in Resources */,
+				65A2558A1C88C303002CD381 /* FPAMainViewController.xib in Resources */,
 				65A255671C88C1EE002CD381 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,6 +260,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A255651C88C1EE002CD381 /* FPAAppDelegate.m in Sources */,
+				651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */,
+				65A255881C88C2C7002CD381 /* FPAMainViewController.m in Sources */,
+				651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */,
 				65A255611C88C1EE002CD381 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -301,6 +323,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -363,6 +386,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reasons To Be Tearful/Reasons To Be Tearful-Prefix.pch";
 				INFOPLIST_FILE = "Reasons To Be Tearful/Reasons To Be Tearful-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -376,6 +400,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reasons To Be Tearful/Reasons To Be Tearful-Prefix.pch";
 				INFOPLIST_FILE = "Reasons To Be Tearful/Reasons To Be Tearful-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -397,6 +422,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "Reasons To Be TearfulTests/Reasons To Be TearfulTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -415,6 +441,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reasons To Be Tearful/Reasons To Be Tearful-Prefix.pch";
 				INFOPLIST_FILE = "Reasons To Be TearfulTests/Reasons To Be TearfulTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -440,6 +467,7 @@
 				65A2557F1C88C1EE002CD381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65A255801C88C1EE002CD381 /* Build configuration list for PBXNativeTarget "Reasons To Be TearfulTests" */ = {
 			isa = XCConfigurationList;
@@ -448,6 +476,7 @@
 				65A255821C88C1EE002CD381 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
