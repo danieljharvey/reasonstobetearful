@@ -7,17 +7,31 @@
 //
 
 #import <Foundation/Foundation.h>
+@import AVFoundation;
+
 @class FPADataFetcher;
+@class FPAAudioPlayer;
 
 @interface FPAMainViewController : UIViewController
 
 @property (nonatomic, strong) FPADataFetcher * dataFetcher;
+@property (nonatomic, strong) FPADataFetcher * audioFetcher;
+@property (nonatomic, strong) FPAAudioPlayer * audioPlayer;
+@property (nonatomic, strong) NSTimer * reasonsTimer;
+
 @property (nonatomic, strong) IBOutlet UILabel *blurb;
+
 @property (nonatomic,strong) NSMutableString * reasonString;
 
+-(void)startReasonsLoop;
 -(void)getNewReason;
 -(void)gotNewReason:(NSData *)data;
 -(void)couldntGetReason;
+
+-(void)getNewSounds;
+-(void)gotNewSounds:(NSData *)data;
+-(void)couldntGetSounds;
+
 -(void)updateLabelView;
 
 

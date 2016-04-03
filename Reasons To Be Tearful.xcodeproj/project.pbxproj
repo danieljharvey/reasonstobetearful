@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */; };
 		651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */; };
+		653984861CB1921700E23114 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653984851CB1921700E23114 /* AudioToolbox.framework */; };
 		65A255551C88C1EE002CD381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255541C88C1EE002CD381 /* Foundation.framework */; };
 		65A255571C88C1EE002CD381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255561C88C1EE002CD381 /* CoreGraphics.framework */; };
 		65A255591C88C1EE002CD381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255581C88C1EE002CD381 /* UIKit.framework */; };
@@ -40,6 +41,7 @@
 		651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPADataFetcher.m; sourceTree = "<group>"; };
 		651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPAAudioPlayer.h; path = ../FPAAudioPlayer.h; sourceTree = "<group>"; };
 		651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPAAudioPlayer.m; path = ../FPAAudioPlayer.m; sourceTree = "<group>"; };
+		653984851CB1921700E23114 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		65A255511C88C1EE002CD381 /* Reasons To Be Tearful.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reasons To Be Tearful.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		65A255541C88C1EE002CD381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		65A255561C88C1EE002CD381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -66,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				653984861CB1921700E23114 /* AudioToolbox.framework in Frameworks */,
 				65A255571C88C1EE002CD381 /* CoreGraphics.framework in Frameworks */,
 				65A255591C88C1EE002CD381 /* UIKit.framework in Frameworks */,
 				65A255551C88C1EE002CD381 /* Foundation.framework in Frameworks */,
@@ -107,6 +110,7 @@
 		65A255531C88C1EE002CD381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				653984851CB1921700E23114 /* AudioToolbox.framework */,
 				65A255541C88C1EE002CD381 /* Foundation.framework */,
 				65A255561C88C1EE002CD381 /* CoreGraphics.framework */,
 				65A255581C88C1EE002CD381 /* UIKit.framework */,
@@ -338,7 +342,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -371,7 +375,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

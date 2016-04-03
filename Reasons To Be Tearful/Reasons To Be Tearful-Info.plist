@@ -30,6 +30,15 @@
 		<false/>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>tonycuffe.com</key>
+			<dict>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>reasonstobetearful.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

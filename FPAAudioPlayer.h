@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+@import AVFoundation;
+@class FPAMainViewController;
 
-@interface FPAAudioPlayer : NSObject
+@interface FPAAudioPlayer : NSObject<AVAudioPlayerDelegate>
+
+@property (nonatomic, weak) FPAMainViewController * mvc; // pointer to main program so we can tell it to update when data is fetched
+@property (nonatomic, strong) AVAudioPlayer * player;
+
+- (id)initWithViewController:(FPAMainViewController *)viewController;
+- (void)streamAudio:(NSData *)data;
+- (void)doVolumeFade;
 
 @end
