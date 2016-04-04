@@ -12,10 +12,12 @@
 
 @implementation FPAAudioPlayer
 
--(id)initWithViewController:(FPAMainViewController *)viewController {
+-(id)initWithViewController:(FPAMainViewController *)viewController playerNumber:(NSUInteger)playerNumber {
     FPAAudioPlayer *me = [super init];
     if (me) {
         me.mvc=viewController;
+        me.playing=false;
+        me.playerNumber=playerNumber;
     }
     return me;
 }
@@ -25,20 +27,35 @@
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     // play another sick tune i guess
     NSLog(@"Play completed I guess");
+    self.playing=false;
     [self.mvc getNewSounds];
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
     NSLog(@"Error! Which is %@",error);
+    self.playing=false;
 }
 
 -(void)streamAudio:(NSData *)data {
     NSLog(@"FPAAudioPlayer -> streamAudio");
+    NSLog(@"Player number %d",self.playerNumber);
     NSError * error;
     self.player = [[AVAudioPlayer alloc] initWithData:data error:&error];
 
     if (self.player) {
         NSLog(@"player initialised");
+        srand48(arc4random());
+        
+        double x = drand48();
+        x=(x*2)-1;
+        NSLog(@"Pan to %f",x);
+        
+/*        if (self.playerNumber % 2 == 0) { // even
+            self.player.pan=-0.75;
+        } else {
+            self.player.pan=0.75;
+        }*/
+        self.player.pan=x;
         self.player.numberOfLoops = -1;
         self.player.delegate = self;
         self.player.volume = 0;
@@ -48,6 +65,7 @@
         } else {
             NSLog(@"start playing");
             [self.player play];
+            self.playing=true;
             [self doVolumeFade];
         }
     } else {
@@ -56,11 +74,13 @@
 }
 
 -(void)doVolumeFade {
-    if (self.player.volume < 1) {
+    float maxVolume=(1/(float)self.mvc.numberOfPlayers);
+    if (self.player.volume < maxVolume) {
         self.player.volume = self.player.volume + 0.0001;
+//        NSLog(@"volume is %f",self.player.volume);
         [self performSelector:@selector(doVolumeFade) withObject:nil afterDelay:0.1];
     } else {
-        self.player.volume=1;
+        self.player.volume=maxVolume;
     }
 }
 

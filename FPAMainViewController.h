@@ -16,6 +16,9 @@
 
 @property (nonatomic, strong) FPADataFetcher * dataFetcher;
 @property (nonatomic, strong) FPADataFetcher * audioFetcher;
+@property (nonatomic, strong) NSMutableArray * playerPile;
+@property (nonatomic) NSUInteger numberOfPlayers;
+
 @property (nonatomic, strong) FPAAudioPlayer * audioPlayer;
 @property (nonatomic, strong) NSTimer * reasonsTimer;
 
@@ -31,6 +34,9 @@
 -(void)getNewSounds;
 -(void)gotNewSounds:(NSData *)data;
 -(void)couldntGetSounds;
+
+-(void)createPlayerPile;
+-(BOOL)playerIsFree;
 
 -(void)updateLabelView;
 

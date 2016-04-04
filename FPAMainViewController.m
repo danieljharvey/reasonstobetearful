@@ -21,8 +21,9 @@
     
     self.audioFetcher=[[FPADataFetcher alloc] initWithViewController:self];
     self.audioFetcher.fetchingReasons=false; // so feedback goes to the right place
-    self.audioPlayer=[[FPAAudioPlayer alloc] initWithViewController:self];
-    [self getNewSounds];
+    
+    [self createPlayerPile];
+//    [self getNewSounds];
     [self registerPush];
     [self startReasonsLoop];
     
@@ -31,6 +32,16 @@
 -(void)viewWillDisappear:(BOOL)animated {
     NSLog(@"stopping reasons loop...");
     [self.reasonsTimer invalidate];
+}
+
+-(void)createPlayerPile {
+    NSLog(@"create player pile for %d players",self.numberOfPlayers);
+    if (self.playerPile) return; // already done
+    self.playerPile=[[NSMutableArray alloc] init];
+    for (NSUInteger i=0; i<self.numberOfPlayers; i++) {
+        FPAAudioPlayer * audioPlayer=[[FPAAudioPlayer alloc] initWithViewController:self playerNumber:i];
+        [self.playerPile addObject:audioPlayer];
+    }
 }
 
 #pragma mark Reasons
@@ -46,6 +57,12 @@
 
 -(void)getNewReason {
     [self.dataFetcher fetchNewReason];
+    if ([self playerIsFree]) {
+        NSLog(@"player is free");
+        [self getNewSounds];
+    } else {
+        NSLog(@"no players are free");
+    }
 }
 
 -(void)gotNewReason:(NSData *)data {
@@ -103,8 +120,13 @@
 }
 
 -(void)gotNewSounds:(NSData *)data {
-    // send to audio player
-    [self.audioPlayer streamAudio:data];
+    // send to empty audio player
+    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
+        if (thisAudioPlayer.playing==false) {
+            [thisAudioPlayer streamAudio:data];
+            return;
+        }
+    }
 }
 
 -(void)couldntGetSounds {
@@ -114,6 +136,15 @@
                                    selector:@selector(getNewSounds)
                                    userInfo:nil
                                     repeats:NO];
+}
+
+-(BOOL)playerIsFree {
+    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
+        if (thisAudioPlayer.playing==false) {
+            return true;
+        }
+    }
+    return false;
 }
 
 #pragma mark Push
