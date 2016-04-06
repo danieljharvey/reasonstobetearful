@@ -15,9 +15,10 @@
 @interface FPAMainViewController : UIViewController
 
 @property (nonatomic, strong) FPADataFetcher * dataFetcher;
-@property (nonatomic, strong) FPADataFetcher * audioFetcher;
+@property (nonatomic, strong) NSMutableArray * fetcherPile;
 @property (nonatomic, strong) NSMutableArray * playerPile;
 @property (nonatomic) NSUInteger numberOfPlayers;
+@property (nonatomic, strong) NSMutableDictionary * soundsList;
 
 @property (nonatomic, strong) FPAAudioPlayer * audioPlayer;
 @property (nonatomic, strong) NSTimer * reasonsTimer;
@@ -36,7 +37,8 @@
 -(void)couldntGetSounds;
 
 -(void)createPlayerPile;
--(BOOL)playerIsFree;
+-(NSUInteger)playerIsFree;
+-(NSUInteger)getRandomSound;
 
 -(void)updateLabelView;
 

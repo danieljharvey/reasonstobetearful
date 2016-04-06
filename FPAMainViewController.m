@@ -16,14 +16,8 @@
     [super viewDidLoad];
     self.reasonString=[[NSMutableString alloc] init];
 
-    self.dataFetcher=[[FPADataFetcher alloc] initWithViewController:self];
-    [self getNewReason];
-    
-    self.audioFetcher=[[FPADataFetcher alloc] initWithViewController:self];
-    self.audioFetcher.fetchingReasons=false; // so feedback goes to the right place
-    
-    [self createPlayerPile];
-//    [self getNewSounds];
+    self.dataFetcher=[[FPADataFetcher alloc] initWithViewController:self fetcherNumber:100];
+    [self couldntGetReason]; // show default
     [self registerPush];
     [self startReasonsLoop];
     
@@ -35,12 +29,20 @@
 }
 
 -(void)createPlayerPile {
-    NSLog(@"create player pile for %d players",self.numberOfPlayers);
+//    NSLog(@"create player pile for %d players",self.numberOfPlayers);
     if (self.playerPile) return; // already done
+    if (!self.soundsList) return; // without this whats the point?
+    if (self.numberOfPlayers>[self.soundsList count]) self.numberOfPlayers=[self.soundsList count];
+    NSLog(@"create player pile for %d players",self.numberOfPlayers);
+    self.fetcherPile=[[NSMutableArray alloc] init];
     self.playerPile=[[NSMutableArray alloc] init];
-    for (NSUInteger i=0; i<self.numberOfPlayers; i++) {
+    for (NSUInteger i=1; i<=self.numberOfPlayers; i++) {
         FPAAudioPlayer * audioPlayer=[[FPAAudioPlayer alloc] initWithViewController:self playerNumber:i];
         [self.playerPile addObject:audioPlayer];
+        FPADataFetcher * dataFetcher=[[FPADataFetcher alloc] initWithViewController:self fetcherNumber:i];
+        dataFetcher.fetchingReasons=false;
+        dataFetcher.audioPlayer=audioPlayer; // link the two
+        [self.fetcherPile addObject:dataFetcher];
     }
 }
 
@@ -48,7 +50,7 @@
 
 - (void)startReasonsLoop {
     NSLog(@"starting reasons loop...");
-    self.reasonsTimer=[NSTimer scheduledTimerWithTimeInterval:30.0
+    self.reasonsTimer=[NSTimer scheduledTimerWithTimeInterval:10.0
                                      target:self
                                    selector:@selector(getNewReason)
                                    userInfo:nil
@@ -57,7 +59,7 @@
 
 -(void)getNewReason {
     [self.dataFetcher fetchNewReason];
-    if ([self playerIsFree]) {
+    if ([self playerIsFree]!=false) {
         NSLog(@"player is free");
         [self getNewSounds];
     } else {
@@ -71,8 +73,11 @@
     NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data
                                                          options:kNilOptions
                                                            error:&error];
-    NSLog(@"data is %@",json);
+//    NSLog(@"data is %@",json);
     
+    if ([json objectForKey:@"sounds"]!=nil) {
+        self.soundsList=[json objectForKey:@"sounds"];
+    }
     
     if ([json objectForKey:@"blurb"]!=nil) {
         [self.reasonString setString:[json objectForKey:@"blurb"]];
@@ -84,10 +89,12 @@
 
 -(void)couldntGetReason {
     // put up one of the defaults
-    if (self.reasonString) {
+    NSLog(@"Couldn't get reason string");
+    NSLog(@"current one is %@",self.reasonString);
+    if (self.reasonString.length>0) {
         // leave current one
     } else {
-        [self.reasonString setString:@"Not found"];
+        [self.reasonString setString:@"reasons to be tearful"];
         [self updateLabelView];
     }
 }
@@ -116,9 +123,19 @@
 #pragma mark Sounds
 
 -(void)getNewSounds {
-    [self.audioFetcher fetchNewSounds];
+    NSUInteger playerNumber = [self playerIsFree];
+    if (playerNumber==false) return; // no players
+    for (FPADataFetcher *thisFetcher in self.fetcherPile) {
+        if (thisFetcher.fetcherNumber==playerNumber) {
+            NSUInteger soundID=[self getRandomSound];
+            if (soundID>0) {
+                [thisFetcher fetchNewSounds:soundID];
+            }
+        }
+    }
 }
 
+ // this is obselete now - audio player is found
 -(void)gotNewSounds:(NSData *)data {
     // send to empty audio player
     for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
@@ -130,21 +147,31 @@
 }
 
 -(void)couldntGetSounds {
-    // usually means no internet connection, try again in 30 seconds
-    [NSTimer scheduledTimerWithTimeInterval:30.0
-                                     target:self
-                                   selector:@selector(getNewSounds)
-                                   userInfo:nil
-                                    repeats:NO];
+    // was trying again, now leave that to main loop
 }
 
--(BOOL)playerIsFree {
-    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
-        if (thisAudioPlayer.playing==false) {
-            return true;
+-(NSUInteger)playerIsFree {
+    [self createPlayerPile];
+    for (FPADataFetcher *thisDataFetcher in self.fetcherPile) {
+        if (thisDataFetcher.busy==false && thisDataFetcher.audioPlayer.playing==false) {
+            return thisDataFetcher.fetcherNumber;
         }
     }
     return false;
+}
+
+-(NSUInteger)getRandomSound {
+    NSLog(@"getRandomSound");
+    if (self.soundsList==nil) return 0;
+
+    NSArray *array = [self.soundsList allKeys];
+    int random = arc4random()%[array count];
+    NSString *key = [array objectAtIndex:random];
+
+    NSString * soundString = [self.soundsList objectForKey: key];
+    NSUInteger soundID= [soundString integerValue];
+    NSLog(@"We've got %d",soundID);
+    return soundID;
 }
 
 #pragma mark Push
@@ -174,6 +201,7 @@
     token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
     
 }
+
 
 
 @end

@@ -38,23 +38,24 @@
 
 -(void)streamAudio:(NSData *)data {
     NSLog(@"FPAAudioPlayer -> streamAudio");
-    NSLog(@"Player number %d",self.playerNumber);
+    NSLog(@"Player number %lu",(unsigned long)self.playerNumber);
     NSError * error;
     self.player = [[AVAudioPlayer alloc] initWithData:data error:&error];
 
     if (self.player) {
         NSLog(@"player initialised");
         srand48(arc4random());
-        
-        double x = drand48();
-        x=(x*2)-1;
-        NSLog(@"Pan to %f",x);
-        
-/*        if (self.playerNumber % 2 == 0) { // even
-            self.player.pan=-0.75;
+        double x;
+        // single sound gets played in the centre
+        if (self.mvc.numberOfPlayers==1) {
+            x=0;
         } else {
-            self.player.pan=0.75;
-        }*/
+            x = drand48();
+            x=(x*2)-1;
+        }
+        
+        //NSLog(@"Pan to %f",x);
+        
         self.player.pan=x;
         self.player.numberOfLoops = -1;
         self.player.delegate = self;
@@ -75,8 +76,9 @@
 
 -(void)doVolumeFade {
     float maxVolume=(1/(float)self.mvc.numberOfPlayers);
+    if (self.mvc.numberOfPlayers>4) maxVolume=maxVolume+1;
     if (self.player.volume < maxVolume) {
-        self.player.volume = self.player.volume + 0.0001;
+        self.player.volume = self.player.volume + 0.001;
 //        NSLog(@"volume is %f",self.player.volume);
         [self performSelector:@selector(doVolumeFade) withObject:nil afterDelay:0.1];
     } else {
