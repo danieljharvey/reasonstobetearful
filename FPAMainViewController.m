@@ -65,6 +65,7 @@
     } else {
         NSLog(@"no players are free");
     }
+    [self getVolumeLevels];
 }
 
 -(void)gotNewReason:(NSData *)data {
@@ -163,15 +164,34 @@
 -(NSUInteger)getRandomSound {
     NSLog(@"getRandomSound");
     if (self.soundsList==nil) return 0;
-
-    NSArray *array = [self.soundsList allKeys];
+    
+    NSDictionary *availableSounds=[self getAvailableSounds];
+    if (availableSounds==nil || availableSounds.count==0) return 0; // no sounds left to enjoy
+    
+    NSArray *array = [availableSounds allKeys];
     int random = arc4random()%[array count];
     NSString *key = [array objectAtIndex:random];
 
-    NSString * soundString = [self.soundsList objectForKey: key];
+    NSString * soundString = [availableSounds objectForKey: key];
     NSUInteger soundID= [soundString integerValue];
     NSLog(@"We've got %d",soundID);
     return soundID;
+}
+
+// supply self.soundsList minus playing sounds to stop duplication
+// important if we want to be able to send single songs
+
+-(NSMutableDictionary *)getAvailableSounds {
+    NSMutableDictionary *availableSounds=[[NSMutableDictionary alloc] initWithDictionary:self.soundsList];
+    if (availableSounds.count==0) return nil;
+    for (FPADataFetcher *thisDataFetcher in self.fetcherPile) {
+        if (thisDataFetcher.audioPlayer.playing==true || thisDataFetcher.busy==true) {
+            NSUInteger soundID=thisDataFetcher.soundID;
+            NSString * soundString=[[NSString alloc] initWithFormat:@"%d",soundID];
+            [availableSounds removeObjectForKey:soundString];
+        }
+    }
+    return availableSounds;
 }
 
 #pragma mark Push
@@ -202,6 +222,17 @@
     
 }
 
+# pragma mark audio levelling
+
+-(void)getVolumeLevels {
+    NSMutableArray *levels=[[NSMutableArray alloc] init];
+    for (FPADataFetcher *thisDataFetcher in self.fetcherPile) {
+        float volume=[thisDataFetcher.audioPlayer getCurrentVolume];
+        NSNumber *num = [NSNumber numberWithFloat:volume];
+        [levels addObject:num];
+    }
+    NSLog(@"levels are %@",levels);
+}
 
 
 @end

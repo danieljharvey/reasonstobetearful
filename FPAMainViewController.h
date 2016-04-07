@@ -39,9 +39,10 @@
 -(void)createPlayerPile;
 -(NSUInteger)playerIsFree;
 -(NSUInteger)getRandomSound;
+-(NSMutableDictionary *)getAvailableSounds;
 
 -(void)updateLabelView;
 
-
+-(void)getVolumeLevels;
 
 @end

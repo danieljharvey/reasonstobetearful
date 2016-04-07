@@ -21,4 +21,6 @@
 - (void)streamAudio:(NSData *)data;
 - (void)doVolumeFade;
 
+-(float)getCurrentVolume;
+
 @end

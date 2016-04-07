@@ -25,10 +25,9 @@
 #pragma mark Audio player delegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    // play another sick tune i guess
+    // flag player as available
     NSLog(@"Play completed I guess");
     self.playing=false;
-    [self.mvc getNewSounds];
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
@@ -57,9 +56,10 @@
         //NSLog(@"Pan to %f",x);
         
         self.player.pan=x;
-        self.player.numberOfLoops = -1;
+        self.player.numberOfLoops = 0;
         self.player.delegate = self;
         self.player.volume = 0;
+        self.player.meteringEnabled=true;
         [self.player prepareToPlay];
         if (self.player == nil) {
             NSLog(@"%@", [error description]);
@@ -76,7 +76,7 @@
 
 -(void)doVolumeFade {
     float maxVolume=(1/(float)self.mvc.numberOfPlayers);
-    if (self.mvc.numberOfPlayers>4) maxVolume=maxVolume+1;
+//    if (self.mvc.numberOfPlayers>4) maxVolume=maxVolume+1;
     if (self.player.volume < maxVolume) {
         self.player.volume = self.player.volume + 0.001;
 //        NSLog(@"volume is %f",self.player.volume);
@@ -85,5 +85,21 @@
         self.player.volume=maxVolume;
     }
 }
+
+# pragma mark Level monitoring
+
+-(float)getCurrentVolume {
+    if (self.playing==false) return 0;
+    [self.player updateMeters];
+    NSUInteger numChannels=self.player.numberOfChannels;
+    float volume=0;
+    for (int currChan = 0; currChan < numChannels; currChan++) {
+        volume=volume+[self.player averagePowerForChannel:currChan];
+    }
+    volume=volume/numChannels;
+    NSLog(@"player %d at level of %f",self.playerNumber,volume);
+    return volume;
+}
+
 
 @end
