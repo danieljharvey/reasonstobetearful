@@ -10,12 +10,21 @@
 #import "FPADataFetcher.h"
 #import "FPAAudioPlayer.h"
 
+
 @implementation FPAMainViewController
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     self.reasonString=[[NSMutableString alloc] init];
 
+    _targetRed=0;
+    _targetGreen=0;
+    _targetBlue=0;
+    _currentRed=0;
+    _currentGreen=0;
+    _currentBlue=0;
+    [self doColourFade]; // start graphics timer
+    
     self.dataFetcher=[[FPADataFetcher alloc] initWithViewController:self fetcherNumber:100];
     [self couldntGetReason]; // show default
     [self registerPush];
@@ -32,7 +41,7 @@
 //    NSLog(@"create player pile for %d players",self.numberOfPlayers);
     if (self.playerPile) return; // already done
     if (!self.soundsList) return; // without this whats the point?
-    if (self.numberOfPlayers>[self.soundsList count]) self.numberOfPlayers=[self.soundsList count];
+//    if (self.numberOfPlayers>[self.soundsList count]) self.numberOfPlayers=[self.soundsList count]; // don't do this - instead make idle players that may activate when there are more sounds
     NSLog(@"create player pile for %d players",self.numberOfPlayers);
     self.fetcherPile=[[NSMutableArray alloc] init];
     self.playerPile=[[NSMutableArray alloc] init];
@@ -61,7 +70,7 @@
     [self.dataFetcher fetchNewReason];
     if ([self playerIsFree]!=false) {
         NSLog(@"player is free");
-        [self getNewSounds];
+//        [self getNewSounds]; // wait for user input
     } else {
         NSLog(@"no players are free");
     }
@@ -104,6 +113,7 @@
     if ([self.blurb.text isEqualToString:self.reasonString]) {
         NSLog(@"String is the same, do nothing");
     } else {
+        [self backToBlack];
         [UIView animateWithDuration:1.0
                          animations:^{
                              self.blurb.alpha = 0.0;
@@ -235,4 +245,78 @@
 }
 
 
-@end
+# pragma mark colour fading
+
+-(void)chooseRandomColour {
+    if ([self playerIsFree]==false) return;
+    NSDictionary *availableSounds=[self getAvailableSounds];
+    if (availableSounds==nil || availableSounds.count==0) return; // no sounds left to enjoy
+    
+    srand48(arc4random());
+    self.targetRed = (drand48()/2)+0.5;
+    srand48(arc4random());
+    self.targetGreen = (drand48()/2)+0.5;
+    srand48(arc4random());
+    self.targetBlue = (drand48()/2)+0.5;
+     
+//    self.targetRed=self.targetGreen=self.targetBlue=0.3; // try white instead
+    [self performSelector:@selector(backToBlack) withObject:nil afterDelay:0.5];
+}
+
+-(void)backToBlack {
+    self.targetRed=0;
+    self.targetGreen=0;
+    self.targetBlue=0;
+}
+
+// hacky as fuck
+-(void)doColourFade {
+    // red
+    if (_currentRed>_targetRed) {
+        _currentRed=_currentRed-0.01;
+    } else if (_currentRed <_targetRed) {
+        _currentRed=_currentRed+0.05;
+        if (_currentRed >_targetRed) _currentRed=_targetRed; // stop glitching
+    }
+    if (_currentRed>1) _currentRed=1;
+    if (_currentRed<0) _currentRed=0;
+
+    // green
+    if (_currentGreen>_targetGreen) {
+        _currentGreen=_currentGreen-0.01;
+    } else if (_currentGreen <_targetGreen) {
+        _currentGreen=_currentGreen+0.05;
+        if (_currentGreen >_targetGreen) _currentGreen=_targetGreen; // stop glitching
+    }
+    if (_currentGreen>1) _currentGreen=1;
+    if (_currentGreen<0) _currentGreen=0;
+
+    // blue
+    if (_currentBlue>_targetBlue) {
+        _currentBlue=_currentBlue-0.01;
+    } else if (_currentBlue <_targetBlue) {
+        _currentBlue=_currentBlue+0.05;
+        if (_currentBlue >_targetBlue) _currentBlue=_targetBlue; // stop glitching
+    }
+    if (_currentBlue>1) _currentBlue=1;
+    if (_currentBlue<0) _currentBlue=0;
+
+    [self updateColours];
+    [self performSelector:@selector(doColourFade) withObject:nil afterDelay:0.01];
+}
+
+-(void)updateColours {
+    UIColor *backColor = [UIColor colorWithRed:_currentRed green:_currentGreen blue:_currentBlue alpha:1.0f];
+    UIColor *textColor = [UIColor colorWithRed:(1-(_currentRed/2)) green:(1-(_currentGreen/2)) blue:(1-(_currentBlue/2)) alpha:1.0f];
+    
+    self.blurb.textColor =textColor;
+    self.view.backgroundColor=backColor;
+    
+}
+
+#pragma mark touches
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self chooseRandomColour];
+    [self getNewSounds];
+}@end

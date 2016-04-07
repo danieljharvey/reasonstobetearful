@@ -15,7 +15,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     FPAMainViewController *rootView=[[FPAMainViewController alloc] init];
-    rootView.numberOfPlayers=4;
+    rootView.numberOfPlayers=8;
     self.window.rootViewController=rootView;
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];

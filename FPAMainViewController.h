@@ -27,6 +27,16 @@
 
 @property (nonatomic,strong) NSMutableString * reasonString;
 
+@property (nonatomic) float currentRed;
+@property (nonatomic) float currentGreen;
+@property (nonatomic) float currentBlue;
+
+@property (nonatomic) float targetRed;
+@property (nonatomic) float targetGreen;
+@property (nonatomic) float targetBlue;
+
+@property (nonatomic) BOOL touchDown;
+
 -(void)startReasonsLoop;
 -(void)getNewReason;
 -(void)gotNewReason:(NSData *)data;
@@ -44,5 +54,11 @@
 -(void)updateLabelView;
 
 -(void)getVolumeLevels;
+
+-(void)backToBlack;
+-(void)chooseRandomColour;
+-(void)doColourFade;
+-(void)updateColours;
+
 
 @end

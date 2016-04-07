@@ -78,11 +78,12 @@
     float maxVolume=(1/(float)self.mvc.numberOfPlayers);
 //    if (self.mvc.numberOfPlayers>4) maxVolume=maxVolume+1;
     if (self.player.volume < maxVolume) {
-        self.player.volume = self.player.volume + 0.001;
+        self.player.volume = self.player.volume + 0.005;
 //        NSLog(@"volume is %f",self.player.volume);
         [self performSelector:@selector(doVolumeFade) withObject:nil afterDelay:0.1];
     } else {
         self.player.volume=maxVolume;
+        
     }
 }
 
@@ -100,6 +101,7 @@
     NSLog(@"player %d at level of %f",self.playerNumber,volume);
     return volume;
 }
+
 
 
 @end

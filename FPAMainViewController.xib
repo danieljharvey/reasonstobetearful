@@ -33,7 +33,6 @@
                 <constraint firstItem="enU-7Q-SmV" firstAttribute="top" secondItem="maW-qY-34s" secondAttribute="top" constant="25" id="X4g-oV-Vyc"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="407" y="286"/>
         </view>
     </objects>
