@@ -9,21 +9,36 @@
 #import "FPAMainViewController.h"
 #import "FPADataFetcher.h"
 #import "FPAAudioPlayer.h"
-
+#import "FPAVisualiser.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation FPAMainViewController
 
 -(void)viewDidLoad {
     [super viewDidLoad];
     self.reasonString=[[NSMutableString alloc] init];
-
-    _targetRed=0;
-    _targetGreen=0;
-    _targetBlue=0;
-    _currentRed=0;
-    _currentGreen=0;
-    _currentBlue=0;
-    [self doColourFade]; // start graphics timer
+    
+    self.deviceToken =[[NSMutableString alloc] init];
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [[AVAudioSession sharedInstance] setActive: YES error: nil];
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    
+    // set colours to default
+    self.targetRed=0;
+    self.targetGreen=0;
+    self.targetBlue=0;
+    self.currentRed=0;
+    self.currentGreen=0;
+    self.currentBlue=0;
+    
+//    [self doColourFade]; // start graphics timer
+    
+    CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(doColourFade)];
+    [displayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    self.displayLink=displayLink; // keep pointer for stuff
+    
+    [self updateVisuals];
     
     self.dataFetcher=[[FPADataFetcher alloc] initWithViewController:self fetcherNumber:100];
     [self couldntGetReason]; // show default
@@ -34,6 +49,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     NSLog(@"stopping reasons loop...");
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [self.reasonsTimer invalidate];
 }
 
@@ -45,13 +61,21 @@
     NSLog(@"create player pile for %d players",self.numberOfPlayers);
     self.fetcherPile=[[NSMutableArray alloc] init];
     self.playerPile=[[NSMutableArray alloc] init];
+    self.visualPile=[[NSMutableArray alloc] init];
     for (NSUInteger i=1; i<=self.numberOfPlayers; i++) {
         FPAAudioPlayer * audioPlayer=[[FPAAudioPlayer alloc] initWithViewController:self playerNumber:i];
-        [self.playerPile addObject:audioPlayer];
+
         FPADataFetcher * dataFetcher=[[FPADataFetcher alloc] initWithViewController:self fetcherNumber:i];
         dataFetcher.fetchingReasons=false;
         dataFetcher.audioPlayer=audioPlayer; // link the two
+
+        FPAVisualiser * visualiser=[[FPAVisualiser alloc] initWithViewController:self visualNumber:i];
+        
+        audioPlayer.visualiser=visualiser;
+        
+        [self.playerPile addObject:audioPlayer];
         [self.fetcherPile addObject:dataFetcher];
+        [self.visualPile addObject:visualiser];
     }
 }
 
@@ -74,7 +98,6 @@
     } else {
         NSLog(@"no players are free");
     }
-    [self getVolumeLevels];
 }
 
 -(void)gotNewReason:(NSData *)data {
@@ -171,6 +194,15 @@
     return false;
 }
 
+-(BOOL)areAnyPlayersPlaying {
+    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
+        if (thisAudioPlayer.playing!=false) {
+            return true;
+        }
+    }
+    return false;
+}
+
 -(NSUInteger)getRandomSound {
     NSLog(@"getRandomSound");
     if (self.soundsList==nil) return 0;
@@ -186,6 +218,14 @@
     NSUInteger soundID= [soundString integerValue];
     NSLog(@"We've got %d",soundID);
     return soundID;
+}
+
+-(void)stopAllSounds {
+    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
+        if (thisAudioPlayer.playing!=false) {
+            [thisAudioPlayer doFadeOut];
+        }
+    }
 }
 
 // supply self.soundsList minus playing sounds to stop duplication
@@ -216,34 +256,17 @@
     }
 }
 
-- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
-{
-    [application registerForRemoteNotifications];
-}
-
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken{
-    
-    NSLog(@"deviceToken: %@", deviceToken);
-    NSString * token = [NSString stringWithFormat:@"%@", deviceToken];
-    //Format token as you need:
-    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
-    token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
-    token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
-    
-}
 
 # pragma mark audio levelling
 
--(void)getVolumeLevels {
-    NSMutableArray *levels=[[NSMutableArray alloc] init];
-    for (FPADataFetcher *thisDataFetcher in self.fetcherPile) {
-        float volume=[thisDataFetcher.audioPlayer getCurrentVolume];
-        NSNumber *num = [NSNumber numberWithFloat:volume];
-        [levels addObject:num];
+-(void)updateVisuals {
+    float average=(self.currentRed+self.currentGreen+self.currentBlue)/3;
+    for (FPAAudioPlayer *thisAudioPlayer in self.playerPile) {
+        thisAudioPlayer.visualiser.alpha=average;
+        [thisAudioPlayer updateVisuals];
     }
-    NSLog(@"levels are %@",levels);
+//    [self performSelector:@selector(updateVisuals) withObject:nil afterDelay:0.1];
 }
-
 
 # pragma mark colour fading
 
@@ -271,52 +294,131 @@
 
 // hacky as fuck
 -(void)doColourFade {
-    // red
-    if (_currentRed>_targetRed) {
-        _currentRed=_currentRed-0.01;
-    } else if (_currentRed <_targetRed) {
-        _currentRed=_currentRed+0.05;
-        if (_currentRed >_targetRed) _currentRed=_targetRed; // stop glitching
+    CFTimeInterval touchLength=CACurrentMediaTime()-self.touchTime;
+    
+    CFTimeInterval elapsed = (self.displayLink.timestamp - self.firstTimestamp);
+    self.firstTimestamp = self.displayLink.timestamp;
+    
+    // expected unit = 1000/60
+    float expected=1.0/60;
+    float unit=elapsed/expected*0.01;
+    
+    if (self.touchTime>0 && touchLength>6) {
+        self.blurb.text=@"stop.";
+        _currentRed=_currentRed+unit;
+        _currentGreen=_currentGreen+unit;
+        _currentBlue=_currentBlue+unit;
+        
+    } else if (self.touchTime>0 && touchLength>4) {
+//        self.blurb.text=@"stop?";
+        _currentRed=_currentRed+unit;
+        if (_currentGreen>0.3) _currentGreen=_currentGreen-unit;
+        if (_currentBlue>0.3) _currentBlue=_currentBlue-unit;
+        
+    } else if (self.touchTime>0 && touchLength>2) {
+        
+        if (_currentRed<0.4) _currentRed=_currentRed+(unit*0.4);
+        if (_currentGreen<0.6) _currentGreen=_currentGreen+(unit*0.4);
+        if (_currentBlue<0.4) _currentBlue=_currentBlue+(unit*0.4);
+        
+    } else if (self.touchTime>0) {
+        
+        if (_currentRed<0.3) _currentRed=_currentRed+(unit*0.5);
+        if (_currentGreen<0.3) _currentGreen=_currentGreen+(unit*0.15);
+        if (_currentBlue<0.4) _currentBlue=_currentBlue+(unit*0.2);
+        
+    } else {
+        // red
+        if (_currentRed>_targetRed) {
+            _currentRed=_currentRed-unit;
+        } else if (_currentRed <_targetRed) {
+            _currentRed=_currentRed+(unit*5);
+            if (_currentRed >_targetRed) _currentRed=_targetRed; // stop glitching
+        }
+
+        
+        // green
+        if (_currentGreen>_targetGreen) {
+            _currentGreen=_currentGreen-unit;
+        } else if (_currentGreen <_targetGreen) {
+            _currentGreen=_currentGreen+(unit*5);
+            if (_currentGreen >_targetGreen) _currentGreen=_targetGreen; // stop glitching
+        }
+
+        
+        // blue
+        if (_currentBlue>_targetBlue) {
+            _currentBlue=_currentBlue-unit;
+        } else if (_currentBlue <_targetBlue) {
+            _currentBlue=_currentBlue+(unit*5);
+            if (_currentBlue >_targetBlue) _currentBlue=_targetBlue; // stop glitching
+        }
     }
+    
     if (_currentRed>1) _currentRed=1;
     if (_currentRed<0) _currentRed=0;
-
-    // green
-    if (_currentGreen>_targetGreen) {
-        _currentGreen=_currentGreen-0.01;
-    } else if (_currentGreen <_targetGreen) {
-        _currentGreen=_currentGreen+0.05;
-        if (_currentGreen >_targetGreen) _currentGreen=_targetGreen; // stop glitching
-    }
+    
     if (_currentGreen>1) _currentGreen=1;
     if (_currentGreen<0) _currentGreen=0;
-
-    // blue
-    if (_currentBlue>_targetBlue) {
-        _currentBlue=_currentBlue-0.01;
-    } else if (_currentBlue <_targetBlue) {
-        _currentBlue=_currentBlue+0.05;
-        if (_currentBlue >_targetBlue) _currentBlue=_targetBlue; // stop glitching
-    }
+    
     if (_currentBlue>1) _currentBlue=1;
     if (_currentBlue<0) _currentBlue=0;
 
     [self updateColours];
-    [self performSelector:@selector(doColourFade) withObject:nil afterDelay:0.01];
+    [self updateVisuals];
+//    [self performSelector:@selector(doColourFade) withObject:nil afterDelay:0.01];
 }
 
 -(void)updateColours {
-    UIColor *backColor = [UIColor colorWithRed:_currentRed green:_currentGreen blue:_currentBlue alpha:1.0f];
-    UIColor *textColor = [UIColor colorWithRed:(1-(_currentRed/2)) green:(1-(_currentGreen/2)) blue:(1-(_currentBlue/2)) alpha:1.0f];
+
+    UIColor *backColor=[self getBackColor];
+    UIColor *textColor=[self getTextColor];
     
     self.blurb.textColor =textColor;
     self.view.backgroundColor=backColor;
     
 }
 
+-(UIColor *)getBackColor {
+    UIColor *backColor = [UIColor colorWithRed:_currentRed green:_currentGreen blue:_currentBlue alpha:1.0f];
+    return backColor;
+}
+
+-(UIColor *)getTextColor {
+    UIColor *textColor = [UIColor colorWithRed:(1-(_currentRed/2)) green:(1-(_currentGreen/2)) blue:(1-(_currentBlue/2)) alpha:1.0f];
+    return textColor;
+}
+
 #pragma mark touches
 
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    self.touchTime=CACurrentMediaTime();
+}
+
 -(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    [self chooseRandomColour];
-    [self getNewSounds];
+    CFTimeInterval touchLength=CACurrentMediaTime()-self.touchTime;
+    self.touchTime=0;
+    NSLog(@"Touch length was %f",touchLength);
+    if (touchLength>6) {
+        // stop
+        self.touchTime=0;
+        _targetRed=1;
+        _targetGreen=1;
+        _targetBlue=1;
+        [self stopAllSounds];
+        //[self backToBlack];
+    } else if (touchLength>4) {
+        // this is the 'maybe stop', so do nothing
+        [self backToBlack];
+    } else {
+        if ([self playerIsFree]>0) {
+            // add sounds
+            [self chooseRandomColour];
+            [self getNewSounds];
+        } else {
+            // no sounds to add
+            [self performSelector:@selector(backToBlack) withObject:nil afterDelay:0.5];
+        }
+    }
+
 }@end

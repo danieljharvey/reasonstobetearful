@@ -15,8 +15,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     FPAMainViewController *rootView=[[FPAMainViewController alloc] init];
-    rootView.numberOfPlayers=8;
+    rootView.numberOfPlayers=5;
     self.window.rootViewController=rootView;
+    self.mvc=rootView;
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
@@ -33,11 +34,13 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    self.mvc.backgroundMode=true; // make sure audio keeps going
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    self.mvc.backgroundMode=false; // make sure audio keeps going
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -49,5 +52,42 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+#pragma mark Push stuff
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
+{
+    [application registerForRemoteNotifications];
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken{
+    
+    NSString * token = [NSString stringWithFormat:@"%@", deviceToken];
+    //Format token as you need:
+    token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
+    token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
+    token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
+    
+    if (self.mvc.deviceToken!=nil) {
+        [self.mvc.deviceToken setString:token];
+    }
+
+}
+
+-(void)remoteControlReceivedWithEvent:(UIEvent *)event{
+    if (event.type == UIEventTypeRemoteControl){
+        switch (event.subtype) {
+            case 100:
+                [self.mvc getNewSounds];
+                break;
+            case 101:
+                [self.mvc stopAllSounds];
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 @end

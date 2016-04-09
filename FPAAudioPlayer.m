@@ -8,6 +8,7 @@
 
 #import "FPAAudioPlayer.h"
 #import "FPAMainViewController.h"
+#import "FPAVisualiser.h"
 @import AVFoundation;
 
 @implementation FPAAudioPlayer
@@ -28,6 +29,10 @@
     // flag player as available
     NSLog(@"Play completed I guess");
     self.playing=false;
+    if (self.mvc.backgroundMode) {
+        [self.mvc getNewSounds]; // when in background keep the party going forever
+        [self.mvc getNewSounds]; // in fact, ensure maximum noises
+    }
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error {
@@ -66,6 +71,7 @@
         } else {
             NSLog(@"start playing");
             [self.player play];
+            self.visualiser.drawColor=[self.visualiser getRandomColor];
             self.playing=true;
             [self doVolumeFade];
         }
@@ -87,6 +93,19 @@
     }
 }
 
+// fade out and stop player
+-(void)doFadeOut {
+    NSLog(@"doFadeOut of player %d",self.playerNumber);
+    if (self.player.volume>0) {
+        self.player.volume=self.player.volume-0.01;
+        [self performSelector:@selector(doFadeOut) withObject:nil afterDelay:0.1];
+    } else {
+        [self.player stop];
+        NSLog(@"stopped player %d",self.playerNumber);
+        self.playing=false;
+    }
+}
+
 # pragma mark Level monitoring
 
 -(float)getCurrentVolume {
@@ -98,10 +117,42 @@
         volume=volume+[self.player averagePowerForChannel:currChan];
     }
     volume=volume/numChannels;
-    NSLog(@"player %d at level of %f",self.playerNumber,volume);
-    return volume;
+    if (volume>0) volume=0;
+    volume=volume/-160;
+    return 1-volume;
 }
 
+-(float)getCurrentPosition {
+    if (self.playing==false) return 0;
+    if (self.player.duration==0 || self.player.currentTime==0) return 0; //avoid stinky divide by zero
+    float position=self.player.currentTime/self.player.duration;
+    return position;
+}
 
+-(float)getCurrentPan {
+    if (self.playing==false) return 0;
+    float pan=(self.player.pan+1)/2;
+    return pan;
+}
+
+#pragma mark Visuals and shit
+
+-(void)updateVisuals {
+    float pan=[self getCurrentPan];
+    float volume=[self getCurrentVolume];
+    float position=[self getCurrentPosition];
+    
+    self.visualiser.x=position;
+    self.visualiser.y=pan*((volume/5)+0.8);
+    
+    float fadePos=(position*2)-1;
+    if (fadePos<0) fadePos=-fadePos;
+//    self.visualiser.z=1-fadePos;
+    self.visualiser.z=self.player.volume;
+
+//    UIColor *drawColor=[self.mvc getTextColor];
+  //  self.visualiser.drawColor=drawColor;
+    [self.visualiser setNeedsDisplay];
+}
 
 @end

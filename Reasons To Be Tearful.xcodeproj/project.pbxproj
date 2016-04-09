@@ -10,6 +10,8 @@
 		651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */; };
 		651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */; };
 		653984861CB1921700E23114 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653984851CB1921700E23114 /* AudioToolbox.framework */; };
+		659BAAA31CB8246600026FA7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659BAAA21CB8246600026FA7 /* QuartzCore.framework */; };
+		659BAAA71CB83F0300026FA7 /* FPAVisualiser.m in Sources */ = {isa = PBXBuildFile; fileRef = 659BAAA61CB83F0300026FA7 /* FPAVisualiser.m */; };
 		65A0D4171CB6A9E4006DAF48 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A0D4161CB6A9E4006DAF48 /* Launch Screen.storyboard */; };
 		65A0D4191CB6AA89006DAF48 /* App Logo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 65A0D4181CB6AA89006DAF48 /* App Logo.jpg */; };
 		65A255551C88C1EE002CD381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 65A255541C88C1EE002CD381 /* Foundation.framework */; };
@@ -44,6 +46,9 @@
 		651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPAAudioPlayer.h; path = ../FPAAudioPlayer.h; sourceTree = "<group>"; };
 		651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPAAudioPlayer.m; path = ../FPAAudioPlayer.m; sourceTree = "<group>"; };
 		653984851CB1921700E23114 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		659BAAA21CB8246600026FA7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		659BAAA51CB83F0300026FA7 /* FPAVisualiser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPAVisualiser.h; sourceTree = "<group>"; };
+		659BAAA61CB83F0300026FA7 /* FPAVisualiser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPAVisualiser.m; sourceTree = "<group>"; };
 		65A0D4161CB6A9E4006DAF48 /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		65A0D4181CB6AA89006DAF48 /* App Logo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "App Logo.jpg"; path = "../../../Library/Containers/com.apple.mail/Data/Library/Mail Downloads/AE7A56B3-98A8-468B-9C52-5D4E9FCDDDAA/App Logo.jpg"; sourceTree = "<group>"; };
 		65A255511C88C1EE002CD381 /* Reasons To Be Tearful.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Reasons To Be Tearful.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				659BAAA31CB8246600026FA7 /* QuartzCore.framework in Frameworks */,
 				653984861CB1921700E23114 /* AudioToolbox.framework in Frameworks */,
 				65A255571C88C1EE002CD381 /* CoreGraphics.framework in Frameworks */,
 				65A255591C88C1EE002CD381 /* UIKit.framework in Frameworks */,
@@ -115,6 +121,7 @@
 		65A255531C88C1EE002CD381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				659BAAA21CB8246600026FA7 /* QuartzCore.framework */,
 				653984851CB1921700E23114 /* AudioToolbox.framework */,
 				65A255541C88C1EE002CD381 /* Foundation.framework */,
 				65A255561C88C1EE002CD381 /* CoreGraphics.framework */,
@@ -135,6 +142,8 @@
 				65A255871C88C2C7002CD381 /* FPAMainViewController.m */,
 				651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */,
 				651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */,
+				659BAAA51CB83F0300026FA7 /* FPAVisualiser.h */,
+				659BAAA61CB83F0300026FA7 /* FPAVisualiser.m */,
 				651B4A6F1CB1370400E0F0D0 /* FPADataFetcher.h */,
 				651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */,
 				65A2555B1C88C1EE002CD381 /* Supporting Files */,
@@ -220,6 +229,14 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = "Daniel Harvey";
 				TargetAttributes = {
+					65A255501C88C1EE002CD381 = {
+						DevelopmentTeam = 3965GEV39R;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
+					};
 					65A2556B1C88C1EE002CD381 = {
 						TestTargetID = 65A255501C88C1EE002CD381;
 					};
@@ -275,6 +292,7 @@
 				651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */,
 				65A255881C88C2C7002CD381 /* FPAMainViewController.m in Sources */,
 				651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */,
+				659BAAA71CB83F0300026FA7 /* FPAVisualiser.m in Sources */,
 				65A255611C88C1EE002CD381 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -399,7 +417,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reasons To Be Tearful/Reasons To Be Tearful-Prefix.pch";
 				INFOPLIST_FILE = "Reasons To Be Tearful/Reasons To Be Tearful-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fauxpas.reasonstobetearful;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -414,7 +432,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Reasons To Be Tearful/Reasons To Be Tearful-Prefix.pch";
 				INFOPLIST_FILE = "Reasons To Be Tearful/Reasons To Be Tearful-Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.fauxpas.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_BUNDLE_IDENTIFIER = com.fauxpas.reasonstobetearful;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

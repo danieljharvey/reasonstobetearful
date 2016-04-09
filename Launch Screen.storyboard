@@ -17,51 +17,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="App Logo.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="X4g-Xr-vha">
-                                <rect key="frame" x="133" y="166" width="334" height="268"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="App Logo.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="Rvo-d7-fBI">
+                                <rect key="frame" x="180" y="236" width="240" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="0PU-V7-Tn0"/>
-                                    <constraint firstAttribute="height" constant="200" id="7Bc-Mg-Crq"/>
+                                    <constraint firstAttribute="width" constant="240" id="Ryl-9N-cLG"/>
+                                    <constraint firstAttribute="height" constant="128" id="g1N-0v-bNl"/>
                                 </constraints>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="0PU-V7-Tn0"/>
-                                        <exclude reference="7Bc-Mg-Crq"/>
-                                    </mask>
-                                </variation>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="70" y="70" width="460" height="364"/>
-                                    <mask key="constraints">
-                                        <include reference="0PU-V7-Tn0"/>
-                                        <include reference="7Bc-Mg-Crq"/>
-                                    </mask>
-                                </variation>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="X4g-Xr-vha" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="gRI-4W-NSk"/>
-                            <constraint firstItem="X4g-Xr-vha" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="mC3-8N-OhN"/>
+                            <constraint firstItem="Rvo-d7-fBI" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="8v4-qt-gge"/>
+                            <constraint firstItem="Rvo-d7-fBI" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="TzK-Oo-qUB"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="gRI-4W-NSk"/>
-                                <exclude reference="mC3-8N-OhN"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="constraints">
-                                <include reference="gRI-4W-NSk"/>
-                                <include reference="mC3-8N-OhN"/>
-                            </mask>
-                        </variation>
                     </view>
-                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-                    <size key="freeformSize" width="600" height="600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="15" y="378"/>
         </scene>
     </scenes>
     <resources>

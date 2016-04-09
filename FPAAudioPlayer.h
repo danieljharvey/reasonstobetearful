@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 @import AVFoundation;
 @class FPAMainViewController;
+@class FPAVisualiser;
 
 @interface FPAAudioPlayer : NSObject<AVAudioPlayerDelegate>
 
@@ -16,11 +17,17 @@
 @property (nonatomic, strong) AVAudioPlayer * player;
 @property (nonatomic) NSUInteger playerNumber;
 @property (nonatomic) BOOL playing;
+@property (nonatomic, weak) FPAVisualiser *visualiser;
 
 - (id)initWithViewController:(FPAMainViewController *)viewController playerNumber:(NSUInteger)playerNumber;
 - (void)streamAudio:(NSData *)data;
 - (void)doVolumeFade;
+- (void)doFadeOut;
 
--(float)getCurrentVolume;
+- (float)getCurrentVolume;
+- (float)getCurrentPosition;
+- (float)getCurrentPan;
+
+-(void)updateVisuals;
 
 @end

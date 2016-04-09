@@ -28,7 +28,14 @@
 - (void)fetchNewReason {
     NSLog(@"fetcher number %d fetching new reason",self.fetcherNumber);
     self.busy=true;
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://reasonstobetearful.com/api/"]];
+    NSString * urlString;
+    if (self.mvc.deviceToken!=nil && self.mvc.deviceToken.length>0) {
+        urlString=[[NSString alloc] initWithFormat:@"http://reasonstobetearful.com/api/?pushToken=%@",self.mvc.deviceToken];
+    } else {
+        urlString=@"http://reasonstobetearful.com/api/";
+    }
+    NSLog(urlString);
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
 
