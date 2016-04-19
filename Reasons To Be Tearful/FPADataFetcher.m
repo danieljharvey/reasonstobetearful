@@ -26,7 +26,7 @@
 # pragma mark App specific stuff
 
 - (void)fetchNewReason {
-    NSLog(@"fetcher number %d fetching new reason",self.fetcherNumber);
+//    NSLog(@"fetcher number %d fetching new reason",self.fetcherNumber);
     self.busy=true;
     NSString * urlString;
     if (self.mvc.deviceToken!=nil && self.mvc.deviceToken.length>0) {
@@ -34,7 +34,7 @@
     } else {
         urlString=@"http://reasonstobetearful.com/api/";
     }
-    NSLog(urlString);
+  //  NSLog(urlString);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 }
@@ -42,13 +42,13 @@
 - (void)fetchNewSounds:(NSUInteger)soundID {
     self.soundID=soundID;
     if ([self loadDataFromFile]) {
-        NSLog(@"fetcher number %d loaded from cache",self.fetcherNumber);
+    //    NSLog(@"fetcher number %d loaded from cache",self.fetcherNumber);
         [self.audioPlayer streamAudio:_responseData];
     } else {
-        NSLog(@"fetcher number %d fetching new sounds",self.fetcherNumber);
+      //  NSLog(@"fetcher number %d fetching new sounds",self.fetcherNumber);
         self.busy=true;
         NSString *urlString = [NSString stringWithFormat:@"http://reasonstobetearful.com/sounds/?soundID=%d", soundID];
-        NSLog(@"urlString is %@",urlString);
+//        NSLog(@"urlString is %@",urlString);
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
 
@@ -74,11 +74,11 @@
     // done!
     self.busy=false;
     if (self.fetchingReasons) {
-        NSLog(@"Fetcher %d found a reason",self.fetcherNumber);
+  //      NSLog(@"Fetcher %d found a reason",self.fetcherNumber);
         [self.mvc gotNewReason:_responseData]; // send data back to main app
     } else {
         // its a sound
-        NSLog(@"Fetcher %d found a sound!",self.fetcherNumber);
+    //    NSLog(@"Fetcher %d found a sound!",self.fetcherNumber);
         NSData *immutableData = [NSData dataWithData:_responseData];
         [self saveDataToFile:immutableData];
 
@@ -89,13 +89,13 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     _responseData=nil; // just in case
-    NSLog(@"Error was %@",error);
+    //NSLog(@"Error was %@",error);
     if (self.fetchingReasons) {
-        NSLog(@"Fetcher %d couldn't find a reason",self.fetcherNumber);
+      //  NSLog(@"Fetcher %d couldn't find a reason",self.fetcherNumber);
         [self.mvc couldntGetReason]; // send data back to main app
     } else {
         // its a sound
-        NSLog(@"Fetcher %d couldn't find a sound",self.fetcherNumber);
+        //NSLog(@"Fetcher %d couldn't find a sound",self.fetcherNumber);
         [self.mvc couldntGetSounds];
     }
     self.busy=false; // fetcher is free
@@ -122,7 +122,7 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
     NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, filename];
-    NSLog(@"filePath %@", filePath);
+//    NSLog(@"filePath %@", filePath);
     return filePath;
 }
 
