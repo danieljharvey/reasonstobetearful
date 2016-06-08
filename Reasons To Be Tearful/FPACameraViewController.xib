@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="14F1713" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FPACameraViewController">
+            <connections>
+                <outlet property="blurb" destination="enU-7Q-SmV" id="6Wx-JJ-nyh"/>
+                <outlet property="view" destination="maW-qY-34s" id="Vai-YA-xN0"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="maW-qY-34s">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text=" Camera view" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="enU-7Q-SmV">
+                    <rect key="frame" x="8" y="8" width="304" height="552"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="Mlz-jp-wz5"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="enU-7Q-SmV" secondAttribute="bottom" constant="25" id="2ob-Ij-Pp2"/>
+                <constraint firstItem="enU-7Q-SmV" firstAttribute="leading" secondItem="maW-qY-34s" secondAttribute="leading" constant="25" id="6TL-pg-z8t"/>
+                <constraint firstItem="enU-7Q-SmV" firstAttribute="top" secondItem="maW-qY-34s" secondAttribute="top" constant="25" id="X4g-oV-Vyc"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <point key="canvasLocation" x="407" y="286"/>
+        </view>
+    </objects>
+</document>

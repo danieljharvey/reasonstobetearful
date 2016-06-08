@@ -24,8 +24,7 @@
         CGRect halfFrame=CGRectMake(0, me.mvc.view.frame.size.height/2, me.mvc.view.frame.size.width, me.mvc.view.frame.size.height/2);
         me.frame=halfFrame;
         [self.mvc.view addSubview:me];
-        [self.mvc.view bringSubviewToFront:self.mvc.blurb];
-    }
+        [self.mvc.view bringSubviewToFront:self.mvc.blurb];    }
     return me;
 }
 

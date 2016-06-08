@@ -10,6 +10,8 @@
 		651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A701CB1370400E0F0D0 /* FPADataFetcher.m */; };
 		651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */; };
 		653984861CB1921700E23114 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 653984851CB1921700E23114 /* AudioToolbox.framework */; };
+		6572ECBB1CC66469000E9C91 /* FPACameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6572ECBA1CC66469000E9C91 /* FPACameraViewController.m */; };
+		6572ECBD1CC66633000E9C91 /* FPACameraViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6572ECBC1CC66633000E9C91 /* FPACameraViewController.xib */; };
 		659BAAA31CB8246600026FA7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 659BAAA21CB8246600026FA7 /* QuartzCore.framework */; };
 		659BAAA71CB83F0300026FA7 /* FPAVisualiser.m in Sources */ = {isa = PBXBuildFile; fileRef = 659BAAA61CB83F0300026FA7 /* FPAVisualiser.m */; };
 		65A0D4171CB6A9E4006DAF48 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65A0D4161CB6A9E4006DAF48 /* Launch Screen.storyboard */; };
@@ -46,6 +48,9 @@
 		651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPAAudioPlayer.h; path = ../FPAAudioPlayer.h; sourceTree = "<group>"; };
 		651B4A731CB14DC200E0F0D0 /* FPAAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPAAudioPlayer.m; path = ../FPAAudioPlayer.m; sourceTree = "<group>"; };
 		653984851CB1921700E23114 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		6572ECB91CC66469000E9C91 /* FPACameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPACameraViewController.h; sourceTree = "<group>"; };
+		6572ECBA1CC66469000E9C91 /* FPACameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPACameraViewController.m; sourceTree = "<group>"; };
+		6572ECBC1CC66633000E9C91 /* FPACameraViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FPACameraViewController.xib; sourceTree = "<group>"; };
 		659BAAA21CB8246600026FA7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		659BAAA51CB83F0300026FA7 /* FPAVisualiser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FPAVisualiser.h; sourceTree = "<group>"; };
 		659BAAA61CB83F0300026FA7 /* FPAVisualiser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FPAVisualiser.m; sourceTree = "<group>"; };
@@ -138,6 +143,9 @@
 				65A255641C88C1EE002CD381 /* FPAAppDelegate.m */,
 				65A255661C88C1EE002CD381 /* Images.xcassets */,
 				65A255861C88C2C7002CD381 /* FPAMainViewController.h */,
+				6572ECB91CC66469000E9C91 /* FPACameraViewController.h */,
+				6572ECBA1CC66469000E9C91 /* FPACameraViewController.m */,
+				6572ECBC1CC66633000E9C91 /* FPACameraViewController.xib */,
 				65A255891C88C303002CD381 /* FPAMainViewController.xib */,
 				65A255871C88C2C7002CD381 /* FPAMainViewController.m */,
 				651B4A721CB14DC100E0F0D0 /* FPAAudioPlayer.h */,
@@ -268,6 +276,7 @@
 				65A2555F1C88C1EE002CD381 /* InfoPlist.strings in Resources */,
 				65A2558A1C88C303002CD381 /* FPAMainViewController.xib in Resources */,
 				65A0D4171CB6A9E4006DAF48 /* Launch Screen.storyboard in Resources */,
+				6572ECBD1CC66633000E9C91 /* FPACameraViewController.xib in Resources */,
 				65A0D4191CB6AA89006DAF48 /* App Logo.jpg in Resources */,
 				65A255671C88C1EE002CD381 /* Images.xcassets in Resources */,
 			);
@@ -289,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				65A255651C88C1EE002CD381 /* FPAAppDelegate.m in Sources */,
+				6572ECBB1CC66469000E9C91 /* FPACameraViewController.m in Sources */,
 				651B4A711CB1370400E0F0D0 /* FPADataFetcher.m in Sources */,
 				65A255881C88C2C7002CD381 /* FPAMainViewController.m in Sources */,
 				651B4A741CB14DC200E0F0D0 /* FPAAudioPlayer.m in Sources */,

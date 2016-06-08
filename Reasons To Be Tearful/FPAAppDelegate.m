@@ -8,6 +8,7 @@
 
 #import "FPAAppDelegate.h"
 #import "FPAMainViewController.h"
+#import "FPACameraViewController.h"
 
 @implementation FPAAppDelegate
 
@@ -15,9 +16,12 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     FPAMainViewController *rootView=[[FPAMainViewController alloc] init];
-    rootView.numberOfPlayers=5;
-    self.window.rootViewController=rootView;
+    //rootView.numberOfPlayers=5;
+    //self.window.rootViewController=rootView;
     self.mvc=rootView;
+    FPACameraViewController * cameraView=[[FPACameraViewController alloc] init];
+    self.window.rootViewController=cameraView;
+    
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor blackColor];
     [self.window makeKeyAndVisible];
